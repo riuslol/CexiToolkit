@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CatsEyeXI Geomancer — Potency Tiers (Lv.75)</title>
+<title>CatsEyeXI Toolkit</title>
 <style>
   :root{
     --bg:#0d1014; --panel:#151a21; --panel2:#1b222b; --line:#28313d;
@@ -116,6 +116,121 @@
   .sctable th{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
   .stmode{padding:7px 14px;border-radius:9px;background:var(--panel);border:1px solid var(--line);color:var(--dim);cursor:pointer;font-size:13px;font-weight:600}
   .stmode.active{color:var(--ink);border-color:var(--accent)}
+  .wsdmode{padding:7px 14px;border-radius:9px;background:var(--panel);border:1px solid var(--line);color:var(--dim);cursor:pointer;font-size:13px;font-weight:600}
+  .wsdmode.active{color:var(--ink);border-color:var(--accent)}
+  .wsdpane{}
+  .win-agi{color:var(--good);font-weight:700} .win-mab{color:var(--gold);font-weight:700}
+  .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:760px){.pgrid{grid-template-columns:1fr}}
+  .pw{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 13px}
+  .pw h5{margin:0 0 7px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);font-weight:700}
+  .pws{display:block;font-size:14px;font-weight:600;margin:4px 0}
+  .pel{font-family:var(--mono);font-size:11px;padding:1px 7px;border-radius:20px;margin-left:7px;font-weight:700}
+  .e-Fire{background:rgba(255,120,90,.18);color:#ff8a6a} .e-Ice{background:rgba(140,210,255,.18);color:#8cd2ff}
+  .e-Wind{background:rgba(120,230,180,.16);color:#78e6b4} .e-Earth{background:rgba(210,180,120,.18);color:#d2b478}
+  .e-Lightning{background:rgba(200,150,255,.18);color:#c896ff} .e-Water{background:rgba(120,190,255,.16);color:#78beff}
+  .e-Light{background:rgba(255,240,200,.18);color:#ffe9a8} .e-Dark{background:rgba(180,150,220,.2);color:#b496dc}
+  .daycol{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:var(--panel2)}
+  .daycol.now{border-color:var(--accent);background:rgba(92,200,255,.07)}
+  .daycol h5{margin:0 0 3px;font-size:13px;font-weight:700}
+  .daycol .sub{font-size:11px;color:var(--dim);margin-bottom:8px}
+  .sprow{margin:5px 0;font-size:13px}
+  .sprow .who{font-size:11px;color:var(--dim);display:inline-block;min-width:74px}
+  /* --- Empyrean: the pop ladder --- */
+  .eph{display:grid;grid-template-columns:1fr auto auto;gap:16px;align-items:center;
+    background:linear-gradient(135deg,rgba(143,123,255,.13),rgba(232,192,106,.06) 60%,transparent);
+    border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:18px}
+  @media(max-width:640px){.eph{grid-template-columns:1fr auto}}
+  @media(max-width:440px){.eph{grid-template-columns:1fr}}
+  .ephr{display:flex;flex-direction:column;align-items:center;gap:9px}
+  .matlog{display:flex;flex-direction:column;align-items:center;gap:5px}
+  .matlog .mlab{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);font-weight:700}
+  .eph .kicker{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:700}
+  .eph .ename{font-size:27px;font-weight:800;letter-spacing:-.02em;line-height:1.15;margin:3px 0 2px}
+  .eph .emeta{color:var(--dim);font-size:13px}
+  .ring{position:relative;width:104px;height:104px}
+  .ring svg{transform:rotate(-90deg)} .ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+  .ring .bgc{stroke:var(--panel2)} .ring .fgc{stroke:url(#eg);transition:stroke-dashoffset .35s ease}
+  .ring .lab{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0}
+  .ring .n{font-family:var(--mono);font-size:23px;font-weight:800;line-height:1}
+  .ring .d{font-size:10px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+  .nextup{display:flex;align-items:flex-start;gap:12px;background:var(--panel);border:1px solid var(--line);
+    border-left:3px solid var(--gold);border-radius:12px;padding:13px 16px;margin-bottom:20px}
+  .nextup .nl{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:3px}
+  .nextup .nt{font-size:15.5px;font-weight:600;line-height:1.45}
+  .nextup .nt b{color:var(--accent)}
+  .stage{position:relative;border:1px solid var(--line);border-radius:18px;padding:15px 17px 17px;margin-bottom:10px;
+    background:var(--panel);overflow:hidden}
+  .stage:before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--line)}
+  .stage.hot{border-color:rgba(232,192,106,.45);background:linear-gradient(180deg,rgba(232,192,106,.06),var(--panel) 60%)}
+  .stage.hot:before{background:var(--gold)}
+  .stage.done{border-color:rgba(99,230,168,.4)} .stage.done:before{background:var(--good)}
+  .shead{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+  .sbadge{flex:0 0 27px;height:27px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12.5px;font-weight:800;color:var(--dim)}
+  .stage.hot .sbadge{background:var(--gold);border-color:var(--gold);color:#1a1408}
+  .stage.done .sbadge{background:var(--good);border-color:var(--good);color:#0b1f16}
+  .stitle{font-size:15px;font-weight:700;line-height:1.25}
+  .ssub{font-size:12px;color:var(--dim);margin-top:1px}
+  .slink{display:flex;justify-content:center;margin:-4px 0 6px;color:var(--line);font-size:15px;line-height:1}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:9px}
+  .timed{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.05em;color:var(--accent);
+    background:rgba(92,200,255,.14);border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:1px;white-space:nowrap} .cks li b{color:var(--ink)}
+  .ahtag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--gold);
+    background:rgba(232,192,106,.14);border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+  .tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;
+    transition:border-color .15s,transform .1s}
+  .tile:hover{border-color:var(--dim);transform:translateY(-1px)}
+  .tile.ready{border-color:rgba(232,192,106,.55);background:linear-gradient(180deg,rgba(232,192,106,.09),transparent)}
+  .tile.open{border-color:var(--accent)}
+  .tile .tn{font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:7px}
+  .tile .tloc{font-family:var(--mono);font-size:11.5px;color:var(--accent);margin-top:3px}
+  .tile .tgot{font-size:11.5px;color:var(--dim);margin-top:6px}
+  .sdot{width:8px;height:8px;border-radius:50%;flex:0 0 8px}
+  .s-ready{background:var(--gold);box-shadow:0 0 0 3px rgba(232,192,106,.2)}
+  .s-lock{background:var(--line)} .s-free{background:var(--accent)}
+  .minineed{margin-top:7px;display:flex;flex-direction:column;gap:2px}
+  .minineed .mn{font-size:11.5px;color:var(--dim);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .minineed .mn.ok{color:var(--good)}
+  .tile .body{display:none;margin-top:11px;padding-top:11px;border-top:1px solid var(--line)}
+  .tile.open .body{display:block}
+  .how{font-size:12.5px;line-height:1.55;color:var(--ink)}
+  .how b{color:var(--gold)}
+  .ir{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:8px 0}
+  .ir .lft{display:flex;align-items:flex-start;gap:9px;min-width:0}
+  .irn{flex:0 0 19px;height:19px;border-radius:5px;background:var(--panel);border:1px solid var(--line);
+    font-family:var(--mono);font-size:11px;font-weight:800;color:var(--dim);
+    display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .ir.ok .irn{background:var(--good);border-color:var(--good);color:#0b1f16}
+  .needhdr{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);font-weight:700;margin:11px 0 2px}
+  .ir + .ir{border-top:1px solid var(--line)}
+  .ir .in1{font-size:13px;line-height:1.3} .ir .in2{font-size:11px;color:var(--dim)}
+  .lc{font-family:var(--mono);color:var(--accent);font-weight:700}
+  .ir.ok .in1{color:var(--good)}
+  .stp{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px;background:var(--panel2);overflow:hidden}
+  .stp button{background:none;border:none;color:var(--ink);font-size:14px;font-weight:700;padding:2px 9px;cursor:pointer}
+  .stp button:hover{background:var(--line)}
+  .stp span{font-family:var(--mono);font-size:13px;font-weight:700;min-width:26px;text-align:center}
+  .addbtn{width:100%;margin-top:11px;background:var(--panel2);border:1px solid var(--line);color:var(--ink);
+    border-radius:9px;padding:8px;font-size:13px;font-weight:600;cursor:pointer}
+  .addbtn:hover{border-color:var(--good);color:var(--good)}
+  .farmrow{display:flex;flex-wrap:wrap;gap:7px;padding-bottom:14px}
+  .fm{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-size:12.5px}
+  .fm .fmn{font-weight:600} .fm .fmi{color:var(--dim);font-size:11px;display:block;margin-top:2px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  .nmhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .nmname{font-size:17px;font-weight:700}
+  .nmloc{font-family:var(--mono);font-size:13px;color:var(--accent)}
+  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+  .b-trig{background:rgba(99,230,168,.15);color:var(--good)} .b-free{background:rgba(232,192,106,.18);color:var(--gold)}
+  .steplbl{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin:16px 0 7px}
+  .maplink{display:block;margin-top:10px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .maplink img{width:100%;display:block}
+  .kibox{display:inline-block;vertical-align:top;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin:5px;cursor:pointer;min-width:170px;transition:border-color .15s}
+  .kibox:hover{border-color:var(--accent)} .kibox.open{border-color:var(--accent)}
+  .kibox .kiname{font-weight:600;font-size:13px} .kibox .kihint{font-size:11px;color:var(--dim);margin-top:2px}
+  .kibox .kidet{display:none;margin-top:9px;padding-top:9px;border-top:1px solid var(--line);font-size:12px;line-height:1.5}
+  .kibox.open .kidet{display:block}
   .stgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   @media(max-width:720px){.stgrid{grid-template-columns:1fr}}
   .strow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:9px 0}
@@ -138,14 +253,14 @@
 <body>
 <div class="wrap">
   <button class="themebtn" id="themebtn" title="Toggle light / dark">🌙</button>
-  <h1>CatsEyeXI <span>Geomancer</span> — Potency by Skill (Lv.75)</h1>
-  <div class="tag">Set your Geomancy &amp; Handbell skill · watch spells step through tiers · values verified in-game</div>
+  <h1>CatsEyeXI <span>Toolkit</span></h1>
+  <div class="tag">Geomancy potency · skillchains · Abyssea procs · Empyrean hunt routes</div>
 
   <div class="tabs">
     <button class="tab active" data-t="geo">Geomancy</button>
     <button class="tab" data-t="sc">Skillchains</button>
-    <button class="tab" data-t="stats">Store TP</button>
-    <button class="tab" data-t="wsd">WS Damage</button>
+    <button class="tab" data-t="procs">Procs</button>
+    <button class="tab" data-t="emp">Empyrean</button>
   </div>
   <div class="tabpane active" id="pane-geo">
   <div class="controls">
@@ -245,101 +360,46 @@
     </div>
   </div>
 
-  <div class="tabpane" id="pane-stats">
-    <div class="sc-sub">
-      <button class="stmode active" data-m="single">Single wield</button>
-      <button class="stmode" data-m="dual">Dual wield</button>
-      <button class="stmode" data-m="h2h">Hand-to-Hand</button>
-    </div>
-
-    <div class="stpane" id="st-single">
-      <div class="stgrid">
-        <div class="scwrap"><h3>Inputs</h3>
-          <div class="strow"><label>Weapon delay</label><input class="stin" id="s_delay" type="number" value="240"></div>
-          <div class="strow"><label>Store TP %</label><input class="stin" id="s_stp" type="number" value="0"></div>
-        </div>
-        <div class="scwrap"><h3>Result</h3>
-          <div style="text-align:center;margin:6px 0 14px"><span class="stbig" id="s_hit">&mdash;</span> <span class="cap">TP / hit</span></div>
-          <div class="stout"><span class="k">Base TP / hit</span><span class="v" id="s_base"></span></div>
-          <div class="stout"><span class="k">Hits to Weapon Skill (1000 TP)</span><span class="v" id="s_hits"></span></div>
-        </div>
+  <div class="tabpane" id="pane-procs">
+    <div class="scwrap">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
+        <div><h3 style="margin:0 0 4px">Vana&rsquo;diel time</h3><div id="vclock" style="font-family:var(--mono);font-size:22px;font-weight:800;color:var(--accent)">&mdash;</div></div>
+        <button class="btn" id="procsync">&#128260; Sync to now</button>
       </div>
-      <div class="scwrap gridbox" id="s_grid"></div>
-    </div>
-
-    <div class="stpane" id="st-dual" style="display:none">
-      <div class="stgrid">
-        <div class="scwrap"><h3>Inputs</h3>
-          <div class="strow"><label>Main delay</label><input class="stin" id="d_main" type="number" value="240"></div>
-          <div class="strow"><label>Sub delay</label><input class="stin" id="d_sub" type="number" value="240"></div>
-          <div class="strow"><label>Dual Wield %</label><input class="stin" id="d_dw" type="number" value="0"></div>
-          <div class="strow"><label>Store TP %</label><input class="stin" id="d_stp" type="number" value="0"></div>
-        </div>
-        <div class="scwrap"><h3>Result</h3>
-          <div class="stout"><span class="k">Reduced delay / hand</span><span class="v" id="d_perhand"></span></div>
-          <div class="stout"><span class="k">TP / hit</span><span class="v" id="d_hit"></span></div>
-          <div class="stout"><span class="k">TP / round (2 hits)</span><span class="v" id="d_round"></span></div>
-          <div class="stout"><span class="k">Rounds to WS (1000 TP)</span><span class="v" id="d_hits"></span></div>
-        </div>
+      <div class="filters" style="margin-top:12px">
+        <select id="procday"></select>
+        <select id="procperiod"></select>
       </div>
-      <div class="scwrap gridbox" id="d_grid"></div>
+      <div class="tag" style="margin-top:4px">Every Abyssea NM gets <b>three</b> random weaknesses when you claim or pop it. Hit each colour <b>once</b> for the best rewards; repeating the same colour shortens the effect and drops the bonus. A weakness can&rsquo;t be triggered while the NM is already staggered, stunned, casting, or using a TP move.</div>
     </div>
 
-    <div class="stpane" id="st-h2h" style="display:none">
-      <div class="stgrid">
-        <div class="scwrap"><h3>Inputs</h3>
-          <div class="strow"><label>H2H weapon delay <span class="cap">480 barehanded</span></label><input class="stin" id="h_delay" type="number" value="480"></div>
-          <div class="strow"><label>Martial Arts delay &minus;</label><input class="stin" id="h_ma" type="number" value="0"></div>
-          <div class="strow"><label>Store TP %</label><input class="stin" id="h_stp" type="number" value="0"></div>
-        </div>
-        <div class="scwrap"><h3>Result</h3>
-          <div class="stout"><span class="k">Effective delay / fist</span><span class="v" id="h_eff"></span></div>
-          <div class="stout"><span class="k">TP / hit</span><span class="v" id="h_hit"></span></div>
-          <div class="stout"><span class="k">TP / round (2 fists)</span><span class="v" id="h_round"></span></div>
-          <div class="stout"><span class="k">Rounds to WS (1000 TP)</span><span class="v" id="h_hits"></span></div>
-        </div>
-      </div>
-      <div class="scwrap gridbox" id="h_grid"></div>
+    <div class="scwrap"><h3 style="color:#5cc8ff">&#128309; Blue &mdash; physical weapon skill <span id="bluetime" class="cap"></span></h3>
+      <div class="cap" style="margin-bottom:9px">Set by the game time you claimed it. One of these 15 &mdash; boosts equipment &amp; weapon drops, and inflicts Amnesia.</div>
+      <div class="pgrid" id="blueout"></div>
     </div>
 
-    <div class="formulas" style="margin-top:14px"><h3>Base TP by delay (classic era formula)</h3>
-      <div class="frow"><span class="k">&le; 180</span><code>(5.0 + (delay&minus;180)&times;1.5 &divide; 180) &times; 10</code></div>
-      <div class="frow"><span class="k">180 &ndash; 450</span><code>(5.0 + (delay&minus;180)&times;6.5 &divide; 270) &times; 10</code></div>
-      <div class="frow"><span class="k">450 &ndash; 480</span><code>(11.5 + (delay&minus;450)&times;1.5 &divide; 30) &times; 10</code></div>
-      <div class="frow"><span class="k">480 &ndash; 530</span><code>(13.0 + (delay&minus;480)&times;1.5 &divide; 50) &times; 10</code></div>
-      <div class="frow"><span class="k">530 &ndash; 999</span><code>(14.5 + (delay&minus;530)&times;3.5 &divide; 470) &times; 10</code></div>
-      <div class="frow"><span class="k">Store TP</span><code>TP/hit = floor( baseTP &times; (1 + StoreTP &divide; 100) )</code></div>
+    <div class="scwrap"><h3 style="color:#ff8a8a">&#128308; Red &mdash; elemental weapon skill</h3>
+      <div class="cap" style="margin-bottom:9px">One of these 13, chosen at random. Secures Atma, Abyssite &amp; key items, and inflicts Terror.</div>
+      <div class="pgrid" id="redout"></div>
     </div>
-    <div class="tag" style="margin-top:6px">TP on the 0&ndash;3000 scale (Weapon Skill at 1000), matching current era servers &mdash; divide by 10 if your client shows 0&ndash;300%. Base TP truncates to a whole number, then Store TP is applied and truncated again.</div>
+
+    <div class="scwrap"><h3 style="color:#e8c06a">&#128993; Yellow &mdash; magic</h3>
+      <div class="cap" style="margin-bottom:9px">The spell&rsquo;s element matches the <b>previous, current or next</b> Vana&rsquo;diel day &mdash; so check all three columns. Boosts synthesis &amp; Empyrean armour drops, and inflicts Silence.</div>
+      <div class="pgrid" id="yellowout" style="grid-template-columns:repeat(3,1fr)"></div>
+    </div>
+
+    <div class="tag">Trigger data from FFXIclopedia&rsquo;s Weakness Trigger tables. CatsEyeXI runs a level-75 era, so a handful of spells or weapon skills listed may not be available in-game yet.</div>
   </div>
 
-  <div class="tabpane" id="pane-wsd">
-    <div class="stgrid">
-      <div class="scwrap"><h3>Weapon skill</h3>
-        <div class="filters">
-          <select id="w_ws"></select>
-          <select id="w_tp"><option value="0">1000 TP</option><option value="1">2000 TP</option><option value="2" selected>3000 TP</option></select>
-        </div>
-        <div id="w_info" class="tag" style="margin:2px 0 12px"></div>
-        <div id="w_stats"></div>
-        <div class="strow"><label>Weapon base DMG</label><input class="stin" id="w_dmg" type="number" value="100"></div>
-        <div class="strow" style="margin:10px 0 2px"><label>pDIF (Attack &divide; Defense)</label><span class="v" id="w_crlbl" style="font-size:15px">1.50</span></div>
-        <input type="range" id="w_crs" min="0.5" max="3.5" step="0.05" value="1.5" style="width:100%;accent-color:var(--accent)">
-        <div class="cap" style="margin-top:5px">&asymp;1.0 even fight &middot; &asymp;2.0 you out-gear it &middot; 3.0+ trivial. You can&rsquo;t see a mob&rsquo;s defense &mdash; slide to taste. It cancels out when comparing skills, so rank WS by <b>Base damage</b>.</div>
-      </div>
-      <div class="scwrap"><h3>Result</h3>
-        <div style="text-align:center;margin:6px 0 14px"><span class="stbig" id="w_out">&mdash;</span> <span class="cap">est. WS damage</span></div>
-        <div class="stout"><span class="k">Base damage (exact &mdash; compare here)</span><span class="v" id="w_base"></span></div>
-        <div class="stout"><span class="k">WSC (stat contribution)</span><span class="v" id="w_wsc"></span></div>
-        <div class="stout"><span class="k">fSTR</span><span class="v" id="w_fstr"></span></div>
-        <div class="stout"><span class="k">fTP (at TP)</span><span class="v" id="w_ftp"></span></div>
-        <div class="stout"><span class="k">Effective pDIF (&times; WS Atk mod)</span><span class="v" id="w_cr"></span></div>
-      </div>
+  <div class="tabpane" id="pane-emp">
+    <div class="toolbar">
+      <select id="emp_ws" style="flex:1;min-width:230px"></select>
+      <button class="btn" id="emp_reset">Clear counts</button>
     </div>
-    <div class="tag" style="margin-top:10px">Physical WS only. <b>Base damage</b> = (weapon DMG + fSTR + WSC) &times; fTP (first hit; all hits for the four fTP-replicating WS: Resolution, Stardiver, Blade: Shun, Last Stand) &mdash; needs no mob data, and is what you compare skills by. <b>Est. WS damage</b> multiplies it by your pDIF &times; the WS&rsquo;s own Attack modifier &mdash; a ballpark before pDIF variance and crits. Target VIT is assumed ~100 (barely moves fSTR). CEXI uses pre-Adoulin fTP; relic/mythic weapons add 10% to their own WS.</div>
+    <div id="emp_out"></div>
   </div>
 
-  <div class="foot">Endpoints: SE dev data (Camate). Model verified in-game: Fury, Barrier, Refresh, Regen, Precision, CHR.</div>
+            <div class="foot">Endpoints: SE dev data (Camate). Model verified in-game: Fury, Barrier, Refresh, Regen, Precision, CHR.</div>
 </div>
 
 <script>
@@ -743,42 +803,6 @@ renderChain();
 $("maxbtn").addEventListener("click",()=>{$("geo").value=300; $("hb").value=280; $("hbT").checked=true; render();});
 render();
 
-/* ===== Store TP tab ===== */
-const gvs=id=>{const e=document.getElementById(id);return e?(+e.value||0):0;};
-function baseTP(delay){let x;
-  if(delay<=180)x=5.0+(delay-180)*1.5/180;
-  else if(delay<=450)x=5.0+(delay-180)*6.5/270;
-  else if(delay<=480)x=11.5+(delay-450)*1.5/30;
-  else if(delay<=530)x=13.0+(delay-480)*1.5/50;
-  else x=14.5+(delay-530)*3.5/470;
-  return Math.floor(x*10);
-}
-const withStore=(bt,stp)=>Math.floor(bt*(1+stp/100));
-const setT=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-function tpGrid(id,tp,label){const el=document.getElementById(id); if(!el)return;
-  if(!tp||tp<=0){el.innerHTML=""; return;}
-  const N=Math.min(15,Math.max(7,Math.ceil(3000/tp)));
-  let chips="";
-  for(let n=1;n<=N;n++){const cum=tp*n, first=cum>=1000&&tp*(n-1)<1000;
-    chips+=`<span class="gchip${cum>=1000?(first?' gfirst':' gover'):''}">${n} <b>${cum}</b></span>`;}
-  el.innerHTML=`<div class="ghdr">Cumulative TP by ${label} <span style="text-transform:none">(green = WS ready at 1000)</span></div><div class="gwrap">${chips}</div>`;}
-function calcSingle(){const d=gvs("s_delay"),stp=gvs("s_stp"),bt=baseTP(d),tp=withStore(bt,stp);
-  setT("s_base",bt); setT("s_hit",tp); setT("s_hits",tp>0?Math.ceil(1000/tp):"\u2014"); tpGrid("s_grid",tp,"hit");}
-function calcDual(){const m=gvs("d_main"),su=gvs("d_sub"),dw=gvs("d_dw"),stp=gvs("d_stp");
-  const ph=(m+su)*(1-dw/100)/2,bt=baseTP(ph),tp=withStore(bt,stp),round=tp*2;
-  setT("d_perhand",ph.toFixed(0)); setT("d_hit",tp); setT("d_round",round); setT("d_hits",round>0?Math.ceil(1000/round):"\u2014"); tpGrid("d_grid",round,"round");}
-function calcH2H(){const d=gvs("h_delay"),ma=gvs("h_ma"),stp=gvs("h_stp"),eff=Math.max(1,d-ma);
-  const bt=baseTP(eff),tp=withStore(bt,stp),round=tp*2;
-  setT("h_eff",eff); setT("h_hit",tp); setT("h_round",round); setT("h_hits",round>0?Math.ceil(1000/round):"\u2014"); tpGrid("h_grid",round,"round");}
-["s_delay","s_stp"].forEach(id=>document.getElementById(id).addEventListener("input",calcSingle));
-["d_main","d_sub","d_dw","d_stp"].forEach(id=>document.getElementById(id).addEventListener("input",calcDual));
-["h_delay","h_ma","h_stp"].forEach(id=>document.getElementById(id).addEventListener("input",calcH2H));
-document.querySelectorAll(".stmode").forEach(m=>m.onclick=()=>{
-  document.querySelectorAll(".stmode").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".stpane").forEach(x=>x.style.display="none");
-  m.classList.add("active"); document.getElementById("st-"+m.dataset.m).style.display="block";
-});
-calcSingle(); calcDual(); calcH2H();
 
 /* ===== save / share build via URL ===== */
 function buildHash(){
@@ -806,179 +830,178 @@ function applyHash(){
 })();
 applyHash();
 
-/* ===== WS Damage tab ===== */
-const WSD=[
-["Apex Arrow","Archery",{AGI:0.95},"95% AGI",5.65,false,15,35,50,1,false,1],
-["Arching Arrow","Archery",{AGI:0.5,STR:0.2},"50% AGI / 20% STR",3.5,false,10,30,50,1,false,1],
-["Blast Arrow","Archery",{AGI:0.35,STR:0.2},"35% AGI / 20% STR",2,false,30,60,90,1,false,1],
-["Dulling Arrow","Archery",{AGI:0.25,STR:0.16},"25% AGI / 16% STR",1,false,10,30,50,1,false,1],
-["Empyreal Arrow","Archery",{AGI:0.6,STR:0.6},"60% AGI / 60% STR",3.1,true,3.1,3.15,3.2,1,false,2],
-["Namas Arrow","Archery",{STR:0.5,AGI:0.5},"50% STR / 50% AGI",2.75,false,20,40,60,1,false,1.5],
-["Piercing Arrow","Archery",{AGI:0.25,STR:0.16},"25% AGI / 16% STR",1,false,0,35,50,1,false,1],
-["Refulgent Arrow","Archery",{STR:0.95},"95% STR",3,true,3,4.25,5,2,false,1],
-["Sidewinder","Archery",{AGI:0.25,STR:0.16},"25% AGI / 16% STR",5,false,-50,0,0,1,false,1],
-["Avalanche Axe","Axe",{STR:0.3},"30% STR",1.5,true,1.5,2,2.5,1,false,1],
-["Bora Axe","Axe",{DEX:1.0},"100% DEX",1,false,33,67,100,1,false,1],
-["Calamity","Axe",{STR:0.5,VIT:0.5},"50% STR / 50% VIT",1,true,1,1.5,4,1,false,1],
-["Decimation","Axe",{STR:0.5},"50% STR",2.25,false,30,60,90,3,false,1],
-["Gale Axe","Axe",{STR:0.3},"30% STR",1,false,60,60,60,1,false,1],
-["Mistral Axe","Axe",{STR:0.5},"50% STR",2.5,true,2.5,3,3.5,1,false,1],
-["Onslaught","Axe",{DEX:0.9},"90% DEX",5.75,false,20,40,60,1,false,1.75],
-["Raging Axe","Axe",{STR:0.3},"30% STR",1,true,1,1.5,2,2,false,1],
-["Rampage","Axe",{STR:0.3},"30% STR",0.5,false,10,30,50,5,false,1],
-["Ruinator","Axe",{STR:0.75},"75% STR",5,false,30,60,90,4,false,2],
-["Smash Axe","Axe",{STR:1.0},"100% STR",1,false,2,4,6,1,false,1],
-["Spinning Axe","Axe",{STR:0.35},"35% STR",2,true,2,2.5,3,1,false,1],
-["Black Halo","Club",{MND:0.75,STR:0.75},"75% MND / 75% STR",3.25,true,3.25,3.3,3.35,2,false,1.5],
-["Brainshaker","Club",{STR:0.3},"30% STR",1,false,2,4,6,1,false,1],
-["Exudation","Club",{INT:0.95,MND:0.95},"95% INT / 95% MND",5.5,true,5.5,5.6,5.7,1,false,1],
-["Hexa Strike","Club",{STR:0.2,MND:0.2},"20% STR / 20% MND",1,false,10,30,50,6,false,1],
-["Judgment","Club",{STR:0.32,MND:0.32},"32% STR / 32% MND",2,true,2,2.5,4,1,false,1],
-["Mystic Boon","Club",{MND:0.95,STR:0.95},"95% MND / 95% STR",5.5,true,5.5,5.6,5.7,1,false,1],
-["Randgrith","Club",{STR:0.85,MND:0.85},"85% STR / 85% MND",5.5,false,20,40,60,1,false,1.25],
-["Realmrazer","Club",{MND:0.85},"85% MND",6,false,0,30,60,7,false,1.5],
-["Skullbreaker","Club",{STR:0.3},"30% STR",1,false,null,null,null,1,false,1],
-["True Strike","Club",{STR:1.0},"100% STR",1,false,-50,-50,-50,1,false,2],
-["Dancing Edge","Dagger",{DEX:0.3,CHR:0.4},"30% DEX / 40% CHR",1.1875,false,0,30,60,5,false,1],
-["Evisceration","Dagger",{DEX:0.5},"50% DEX",2,false,10,30,50,5,false,1],
-["Exenterator","Dagger",{AGI:0.95},"95% AGI",5.5,false,90,180,270,4,false,1.66],
-["Mandalic Stab","Dagger",{DEX:0.75},"75% DEX",2,true,2,2.13,2.5,1,false,1.66],
-["Mercy Stroke","Dagger",{STR:0.8},"80% STR",3,false,20,40,60,1,false,1.5],
-["Mordant Rime","Dagger",{CHR:0.95,DEX:0.95},"95% CHR / 95% DEX",5,false,33,67,100,2,false,1],
-["Pyrrhic Kleos","Dagger",{STR:0.8,DEX:0.8},"80% STR / 80% DEX",3.5,false,60,120,180,4,false,1],
-["Shadowstitch","Dagger",{CHR:0.3},"30% CHR",1,false,33,67,100,1,false,1],
-["Shark Bite","Dagger",{DEX:0.6,AGI:0.6},"60% DEX / 60% AGI",2,true,2,2.5,3,2,false,1],
-["Viper Bite","Dagger",{DEX:0.6},"60% DEX",1.25,false,90,120,180,1,false,1.5],
-["Wasp Sting","Dagger",{DEX:0.3},"30% DEX",1,false,90,105,120,1,false,1.5],
-["Armor Break","Great Axe",{STR:0.2,VIT:0.2},"20% STR / 20% VIT",1,false,180,360,540,1,false,1],
-["Fell Cleave","Great Axe",{STR:0.6},"60% STR",2.5,false,null,null,null,1,false,1],
-["Full Break","Great Axe",{STR:0.5,VIT:0.5},"50% STR / 50% VIT",1,false,180,360,720,1,false,1],
-["Iron Tempest","Great Axe",{STR:0.3},"30% STR",1,false,0,100,250,1,false,1],
-["Keen Edge","Great Axe",{STR:0.35},"35% STR",1,false,30,60,90,1,false,1],
-["King's Justice","Great Axe",{STR:0.7},"70% STR",2.5,true,2.5,3.75,5,3,false,1],
-["Metatron Torment","Great Axe",{STR:0.8},"80% STR",3.75,false,20,40,60,1,false,1.75],
-["Raging Rush","Great Axe",{STR:0.5},"50% STR",1,false,10,30,50,3,false,1],
-["Shield Break","Great Axe",{STR:0.2,VIT:0.2},"20% STR / 20% VIT",1,false,180,240,300,1,false,1],
-["Steel Cyclone","Great Axe",{STR:0.6,VIT:0.6},"60% STR / 60% VIT",1.5,true,1.5,1.75,3,1,false,1.66],
-["Sturmwind","Great Axe",{STR:0.3},"30% STR",1,false,0,100,250,2,false,1],
-["Upheaval","Great Axe",{VIT:0.75,STR:0.75},"75% VIT / 75% STR",4.7,false,null,null,null,4,false,1],
-["Weapon Break","Great Axe",{STR:0.32,VIT:0.32},"32% STR / 32% VIT",1,false,180,240,300,1,false,1],
-["Tachi: Ageha","Great Katana",{CHR:0.95,STR:0.3},"95% CHR / 30% STR",2.8,false,null,null,null,1,false,1],
-["Tachi: Enpi","Great Katana",{STR:0.3},"30% STR",1,true,1,1.5,2,2,false,1],
-["Tachi: Gekko","Great Katana",{STR:0.95},"95% STR",1.5625,true,1.5625,1.88,2.5,1,false,2],
-["Tachi: Hobaku","Great Katana",{STR:0.3},"30% STR",1,false,33,67,100,1,false,1],
-["Tachi: Kaiten","Great Katana",{STR:0.8},"80% STR",4.75,false,20,40,60,1,false,1.75],
-["Tachi: Kasha","Great Katana",{STR:0.85},"85% STR",1.5625,true,1.5625,1.88,2.5,1,false,1.33],
-["Tachi: Rana","Great Katana",{STR:0.9},"90% STR",5.25,false,0,30,60,3,false,1],
-["Tachi: Shoha","Great Katana",{STR:0.75},"75% STR",5.1,false,null,null,null,2,false,1.75],
-["Tachi: Yukikaze","Great Katana",{STR:0.75},"75% STR",1.5625,true,1.5625,1.88,2.5,1,false,1.33],
-["Crescent Moon","Great Sword",{STR:0.35},"35% STR",1,true,1,1.75,2.5,1,false,1],
-["Dimidiation","Great Sword",{DEX:0.95},"95% DEX",5.3,true,5.3,5.45,5.6,2,false,1.5],
-["Ground Strike","Great Sword",{STR:0.8,INT:0.8},"80% STR / 80% INT",1.5,true,1.5,3,5,1,false,1.75],
-["Hard Slash","Great Sword",{STR:0.3},"30% STR",1.5,true,1.5,1.75,2,1,false,1],
-["Power Slash","Great Sword",{STR:0.2,VIT:0.2},"20% STR / 20% VIT",1,false,20,40,60,1,false,1],
-["Resolution","Great Sword",{STR:0.75},"75% STR",2,false,null,null,null,5,true,0.85],
-["Scourge","Great Sword",{STR:0.5,VIT:0.5},"50% STR / 50% VIT",3.5,false,20,40,60,1,false,1.75],
-["Shockwave","Great Sword",{STR:0.3,MND:0.3},"30% STR / 30% MND",1,false,60,120,180,1,false,1],
-["Sickle Moon","Great Sword",{STR:0.2,AGI:0.2},"20% STR / 20% AGI",1.5,true,1.5,2,2.75,2,false,1],
-["Spinning Slash","Great Sword",{STR:0.3,INT:0.3},"30% STR / 30% INT",2.5,true,2.5,3,3.5,1,false,1.5],
-["Ascetic's Fury","Hand-to-Hand",{STR:0.75,VIT:0.75},"75% STR / 75% VIT",4,false,10,20,40,2,false,1],
-["Asuran Fists","Hand-to-Hand",{STR:0.5,VIT:0.5},"50% STR / 50% VIT",1,false,0,30,60,8,false,1],
-["Backhand Blow","Hand-to-Hand",{STR:0.3,DEX:0.3},"30% STR / 30% DEX",1,false,40,60,80,1,false,1],
-["Combo","Hand-to-Hand",{STR:0.2,DEX:0.2},"20% STR / 20% DEX",1,true,1,1.5,2,3,false,1],
-["Dragon Kick","Hand-to-Hand",{STR:0.5,VIT:0.5},"50% STR / 50% VIT",2,true,2,2.5,3.5,2,false,1],
-["Final Heaven","Hand-to-Hand",{VIT:0.8},"80% VIT",5.75,false,20,40,60,1,false,1.75],
-["Howling Fist","Hand-to-Hand",{VIT:0.5,STR:0.2},"50% VIT / 20% STR",2.5,true,2.5,2.75,3,2,false,1.5],
-["One Inch Punch","Hand-to-Hand",{VIT:0.4},"40% VIT",1,false,0,30,50,1,false,1],
-["Raging Fists","Hand-to-Hand",{STR:0.2,DEX:0.2},"20% STR / 20% DEX",1,true,1,1.5,2,5,false,1],
-["Shijin Spiral","Hand-to-Hand",{DEX:0.95},"95% DEX",6.5,false,18,21,24,5,false,1.25],
-["Shoulder Tackle","Hand-to-Hand",{VIT:0.3},"30% VIT",1,false,2,4,6,1,false,1],
-["Spinning Attack","Hand-to-Hand",{STR:0.35},"35% STR",1,false,null,null,null,2,false,1],
-["Stringing Pummel","Hand-to-Hand",{STR:0.75,VIT:0.75},"75% STR / 75% VIT",2,false,15,30,45,6,false,1],
-["Tornado Kick","Hand-to-Hand",{STR:0.6,VIT:0.6},"60% STR / 60% VIT",2.25,true,2.25,2.75,3.5,3,false,1],
-["Blade: Jin","Katana",{STR:0.5,DEX:0.5},"50% STR / 50% DEX",1,false,10,30,50,3,false,1],
-["Blade: Kamu","Katana",{STR:0.8,INT:0.8},"80% STR / 80% INT",4.5,false,60,120,180,1,false,1.3],
-["Blade: Ku","Katana",{STR:0.5,DEX:0.5},"50% STR / 50% DEX",1.75,false,30,60,90,5,false,1],
-["Blade: Metsu","Katana",{DEX:0.85},"85% DEX",5.75,false,20,40,60,1,false,1.5],
-["Blade: Retsu","Katana",{DEX:0.2,STR:0.2},"20% DEX / 20% STR",1,false,30,60,120,2,false,1],
-["Blade: Rin","Katana",{STR:0.2,DEX:0.2},"20% STR / 20% DEX",1,false,30,60,90,1,false,1],
-["Blade: Shun","Katana",{DEX:0.85},"85% DEX",2,false,25,75,100,5,true,1],
-["Blade: Ten","Katana",{STR:0.5,DEX:0.5},"50% STR / 50% DEX",3,true,3,3.25,3.75,1,false,1],
-["Blast Shot","Marksmanship",{AGI:0.55},"55% AGI",2,false,30,60,90,1,false,1],
-["Coronach","Marksmanship",{DEX:0.5,AGI:0.5},"50% DEX / 50% AGI",3,false,20,40,60,1,false,1.5],
-["Detonator","Marksmanship",{AGI:0.6},"60% AGI",1.5,true,1.5,2,2.5,1,false,2],
-["Heavy Shot","Marksmanship",{AGI:0.7},"70% AGI",3.5,false,10,30,50,1,false,1],
-["Last Stand","Marksmanship",{AGI:0.87},"87% AGI",3.25,true,3.25,3.5,4,2,true,1],
-["Numbing Shot","Marksmanship",{AGI:0.8},"80% AGI",3,false,60,120,180,1,false,1],
-["Slug Shot","Marksmanship",{AGI:0.3},"30% AGI",5,false,-50,0,0,1,false,1],
-["Sniper Shot","Marksmanship",{AGI:0.3},"30% AGI",1,false,null,null,null,1,false,1],
-["Split Shot","Marksmanship",{AGI:0.3},"30% AGI",1,false,0,35,50,1,false,1],
-["Double Thrust","Polearm",{STR:0.3},"30% STR",1,true,1,1.5,2,2,false,1],
-["Drakesbane","Polearm",{STR:0.6},"60% STR",1.5,false,10,30,50,4,false,1.125],
-["Geirskogul","Polearm",{DEX:0.8,AGI:0.4},"80% DEX / 40% AGI",3,false,20,40,60,1,false,1.5],
-["Impulse Drive","Polearm",{STR:0.75},"75% STR",2.5,true,2.5,2.75,3,2,false,1],
-["Leg Sweep","Polearm",{STR:0.3},"30% STR",1,false,33,67,100,1,false,1],
-["Penta Thrust","Polearm",{STR:0.2,DEX:0.2},"20% STR / 20% DEX",1,false,0,30,60,5,false,0.875],
-["Skewer","Polearm",{STR:0.35},"35% STR",1,false,10,30,50,3,false,1],
-["Sonic Thrust","Polearm",{STR:0.3,DEX:0.3},"30% STR / 30% DEX",3,true,3,3.25,3.5,1,false,1],
-["Stardiver","Polearm",{STR:0.75},"75% STR",1.92,false,null,null,null,4,true,1],
-["Vorpal Thrust","Polearm",{STR:0.2,AGI:0.2},"20% STR / 20% AGI",1,false,30,60,90,1,false,1],
-["Wheeling Thrust","Polearm",{STR:0.5},"50% STR",1.75,false,50,75,100,1,false,1],
-["Catastrophe","Scythe",{STR:0.6,INT:0.6},"60% STR / 60% INT",2.75,false,20,40,60,1,false,1.5],
-["Cross Reaper","Scythe",{STR:0.5,MND:0.5},"50% STR / 50% MND",2,true,2,4,7,2,false,1],
-["Entropy","Scythe",{INT:0.95,STR:0.25},"95% INT / 25% STR",5.5,false,null,null,null,4,false,1],
-["Guillotine","Scythe",{MND:0.25,STR:0.25},"25% MND / 25% STR",0.875,false,60,120,180,4,false,1],
-["Insurgency","Scythe",{STR:0.3,INT:0.3},"30% STR / 30% INT",3,true,3,4.5,6,4,false,1.25],
-["Nightmare Scythe","Scythe",{STR:0.3,MND:0.3},"30% STR / 30% MND",1,false,60,120,180,1,false,1],
-["Slice","Scythe",{STR:0.3},"30% STR",1.5,true,1.5,1.75,2,1,false,1],
-["Spinning Scythe","Scythe",{STR:0.3},"30% STR",1,false,null,null,null,1,false,1],
-["Spiral Hell","Scythe",{STR:0.65,INT:0.65},"65% STR / 65% INT",1.375,true,1.375,2.75,4.75,1,false,1],
-["Vorpal Scythe","Scythe",{STR:0.35},"35% STR",1,false,30,60,90,1,false,1],
-["Full Swing","Staff",{STR:0.5},"50% STR",1,true,1,3,5,1,false,1],
-["Gate of Tartarus","Staff",{CHR:0.9},"90% CHR",3,false,20,40,60,1,false,1.75],
-["Heavy Swing","Staff",{STR:0.3},"30% STR",1,true,1,1.25,2.25,1,false,1],
-["Retribution","Staff",{MND:0.9,STR:0.9},"90% MND / 90% STR",2,true,2,2.5,3,1,false,1.5],
-["Shattersoul","Staff",{INT:0.95},"95% INT",5.5,false,120,120,120,3,false,2],
-["Shell Crusher","Staff",{STR:0.35},"35% STR",1,false,180,360,720,1,false,1],
-["Spirit Taker","Staff",{INT:0.5,MND:0.5},"50% INT / 50% MND",1,true,1,1.5,2,1,false,1],
-["Circle Blade","Sword",{STR:1.0},"100% STR",1,false,null,null,null,1,false,1],
-["Death Blossom","Sword",{MND:0.85,STR:0.5},"85% MND / 50% STR",4,false,null,null,null,3,false,1],
-["Expiacion","Sword",{STR:0.95,INT:0.95,DEX:0.2},"95% STR / 95% INT / 20% DEX",5.5,true,5.5,5.75,6,2,false,1],
-["Fast Blade","Sword",{STR:0.2,DEX:0.2},"20% STR / 20% DEX",1,true,1,1.5,2,2,false,1],
-["Flat Blade","Sword",{STR:0.3},"30% STR",1,false,33,67,100,1,false,1],
-["Glory Slash","Sword",{STR:0.3},"30% STR",3,true,3,3.5,4,1,false,1],
-["Knights of Round","Sword",{STR:0.65,MND:0.65},"65% STR / 65% MND",3,false,20,40,60,1,false,1],
-["Requiescat","Sword",{MND:0.85},"85% MND",6,false,null,null,null,5,false,1.75],
-["Savage Blade","Sword",{STR:0.8,MND:0.8},"80% STR / 80% MND",4,true,4,4.25,4.5,2,false,1],
-["Swift Blade","Sword",{STR:0.3,MND:0.3},"30% STR / 30% MND",1.5,false,30,60,90,3,false,1],
-["Vorpal Blade","Sword",{STR:0.3},"30% STR",1,false,10,30,50,4,false,1]
-].map(a=>({n:a[0],wt:a[1],mod:a[2],mr:a[3],flat:a[4],sc:a[5],f:[a[6],a[7],a[8]],h:a[9],rp:a[10],am:a[11]}));
-const wStats={STR:0,DEX:0,VIT:0,AGI:0,INT:0,MND:0,CHR:0};
-(function(){ const sel=document.getElementById("w_ws"); if(!sel)return;
-  let last=null,out="";
-  for(let i=0;i<WSD.length;i++){const w=WSD[i]; if(w.wt!==last){ if(last!==null)out+="</optgroup>"; out+=`<optgroup label="${w.wt}">`; last=w.wt;} out+=`<option value="${i}">${w.n}</option>`;}
-  sel.innerHTML=out+"</optgroup>";
-  function renderStats(w){ const need=["STR",...Object.keys(w.mod).filter(x=>x!=="STR")];
-    document.getElementById("w_stats").innerHTML=need.map(st=>`<div class="strow"><label>${st}${w.mod[st]?` <span class="cap">${Math.round(w.mod[st]*100)}%</span>`:` <span class="cap">for fSTR</span>`}</label><input class="stin wstat" data-s="${st}" type="number" value="${wStats[st]||0}"></div>`).join("");
-    document.querySelectorAll("#w_stats .wstat").forEach(inp=>inp.oninput=()=>{wStats[inp.dataset.s]=+inp.value||0; calc();});
+
+
+/* ===== Procs tab ===== */
+const PD={"blue": {"Piercing": {"time": "6:00\u201314:00", "w": {"Archery": ["Sidewinder", "Blast Arrow", "Arching Arrow", "Empyreal Arrow"], "Marksmanship": ["Slug Shot", "Blast Shot", "Heavy Shot", "Detonator"], "Dagger": ["Shadowstitch", "Dancing Edge", "Shark Bite", "Evisceration"], "Polearm": ["Skewer", "Wheeling Thrust", "Impulse Drive"]}}, "Slashing": {"time": "14:00\u201322:00", "w": {"Sword": ["Vorpal Blade", "Swift Blade", "Savage Blade"], "Katana": ["Blade: Ten", "Blade: Ku"], "Axe": ["Mistral Axe", "Decimation"], "Scythe": ["Cross Reaper", "Spiral Hell"], "Great Axe": ["Full Break", "Steel Cyclone"], "Great Katana": ["Tachi: Gekko", "Tachi: Kasha"], "Great Sword": ["Spinning Slash", "Ground Strike"]}}, "Blunt": {"time": "22:00\u20136:00", "w": {"Club": ["Skullbreaker", "True Strike", "Judgment", "Hexa Strike", "Black Halo"], "Hand-to-Hand": ["Raging Fists", "Spinning Attack", "Howling Fist", "Dragon Kick", "Asuran Fists"], "Staff": ["Heavy Swing", "Shell Crusher", "Full Swing", "Spirit Taker", "Retribution"]}}}, "red": [["Club", "Light", "Seraph Strike"], ["Dagger", "Wind", "Cyclone"], ["Dagger", "Dark", "Energy Drain"], ["Great Katana", "Wind", "Tachi: Jinpu"], ["Great Katana", "Light", "Tachi: Koki"], ["Great Sword", "Ice", "Freezebite"], ["Katana", "Dark", "Blade: Ei"], ["Polearm", "Lightning", "Raiden Thrust"], ["Scythe", "Dark", "Shadow of Death"], ["Staff", "Light", "Sunburst"], ["Staff", "Earth", "Earth Crusher"], ["Sword", "Fire", "Red Lotus Blade"], ["Sword", "Light", "Seraph Blade"]], "yellow": {"Elemental III": {"job": "BLM", "by": {"Fire": ["Fire III"], "Earth": ["Stone III"], "Water": ["Water III"], "Wind": ["Aero III"], "Ice": ["Blizzard III"], "Lightning": ["Thunder III"], "Light": [], "Dark": []}}, "Elemental IV": {"job": "BLM", "by": {"Fire": ["Fire IV"], "Earth": ["Stone IV"], "Water": ["Water IV"], "Wind": ["Aero IV"], "Ice": ["Blizzard IV"], "Lightning": ["Thunder IV"], "Light": [], "Dark": []}}, "Elemental -ga III": {"job": "BLM", "by": {"Fire": ["Firaga III"], "Earth": ["Stonega III"], "Water": ["Waterga III"], "Wind": ["Aeroga III"], "Ice": ["Blizzaga III"], "Lightning": ["Thundaga III"], "Light": [], "Dark": []}}, "Ancient Magic": {"job": "BLM", "by": {"Fire": ["Flare"], "Earth": ["Quake"], "Water": ["Flood"], "Wind": ["Tornado"], "Ice": ["Freeze"], "Lightning": ["Burst"], "Light": [], "Dark": []}}, "Divine Magic": {"job": "WHM / PLD", "by": {"Fire": [], "Earth": [], "Water": [], "Wind": [], "Ice": [], "Lightning": [], "Light": ["Banish II", "Banish III", "Banishga", "Banishga II", "Holy", "Flash"], "Dark": []}}, "Dark Magic": {"job": "BLM / DRK", "by": {"Fire": [], "Earth": [], "Water": [], "Wind": [], "Ice": [], "Lightning": [], "Light": [], "Dark": ["Aspir", "Drain", "Bio II"]}}, "Enfeebling Magic": {"job": "RDM / BLM", "by": {"Fire": [], "Earth": [], "Water": [], "Wind": [], "Ice": [], "Lightning": [], "Light": [], "Dark": ["Dispel"]}}, "Blue Magic": {"job": "BLU", "by": {"Fire": ["Heat Breath"], "Earth": ["Magnetite Cloud"], "Water": ["Maelstrom"], "Wind": ["Mysterious Light"], "Ice": ["Ice Break"], "Lightning": ["Mind Blast"], "Light": ["Radiant Breath"], "Dark": ["Eyes On Me"]}}, "Ninjutsu": {"job": "NIN", "by": {"Fire": ["Katon: Ni"], "Earth": ["Doton: Ni"], "Water": ["Suiton: Ni"], "Wind": ["Huton: Ni"], "Ice": ["Hyoton: Ni"], "Lightning": ["Raiton: Ni"], "Light": [], "Dark": ["Kurayami: Ni"]}}, "Songs": {"job": "BRD", "by": {"Fire": ["Ice Threnody"], "Earth": ["Lightning Threnody"], "Water": ["Fire Threnody"], "Wind": ["Earth Threnody"], "Ice": ["Wind Threnody"], "Lightning": ["Water Threnody"], "Light": ["Dark Threnody"], "Dark": ["Light Threnody"]}}}, "days": [["Firesday", "Fire"], ["Earthsday", "Earth"], ["Watersday", "Water"], ["Windsday", "Wind"], ["Iceday", "Ice"], ["Lightningday", "Lightning"], ["Lightsday", "Light"], ["Darksday", "Dark"]], "elems": ["Fire", "Earth", "Water", "Wind", "Ice", "Lightning", "Light", "Dark"]};
+(function(){
+  const daySel=document.getElementById("procday"), perSel=document.getElementById("procperiod");
+  if(!daySel)return;
+  const DAYS=PD.days;
+  daySel.innerHTML=DAYS.map((d,i)=>`<option value="${i}">${d[0]}</option>`).join("");
+  perSel.innerHTML=Object.keys(PD.blue).map(p=>`<option value="${p}">${p} (${PD.blue[p].time})</option>`).join("");
+  function vana(){ const ms=(Date.now()+92514960000)*25;
+    return {wd:((Math.floor(ms/86400000)%8)+8)%8, h:Math.floor(ms%86400000/3600000), m:Math.floor(ms%3600000/60000)}; }
+  const periodFor=h=>(h>=6&&h<14)?"Piercing":(h>=14&&h<22)?"Slashing":"Blunt";
+  function render(){
+    const per=perSel.value, di=+daySel.value;
+    document.getElementById("bluetime").textContent="\u00b7 "+per+" ("+PD.blue[per].time+")";
+    const bw=PD.blue[per].w;
+    document.getElementById("blueout").innerHTML=Object.keys(bw).map(wt=>
+      `<div class="pw"><h5>${wt}</h5>${bw[wt].map(n=>`<span class="pws">${n}</span>`).join("")}</div>`).join("");
+    const byW={};
+    PD.red.forEach(([wt,el,n])=>{ (byW[wt]=byW[wt]||[]).push([n,el]); });
+    document.getElementById("redout").innerHTML=Object.keys(byW).map(wt=>
+      `<div class="pw"><h5>${wt}</h5>${byW[wt].map(([n,el])=>`<span class="pws">${n}<span class="pel e-${el}">${el}</span></span>`).join("")}</div>`).join("");
+    const idx=[(di+7)%8, di, (di+1)%8], lbl=["Previous day","Day of claim","Next day"];
+    document.getElementById("yellowout").innerHTML=idx.map((k,n)=>{
+      const [dname,el]=DAYS[k];
+      const rows=Object.keys(PD.yellow).map(t=>{
+        const sp=PD.yellow[t].by[el]||[];
+        return sp.length?`<div class="sprow"><span class="who">${PD.yellow[t].job}</span>${sp.join(", ")}</div>`:"";
+      }).filter(Boolean).join("");
+      return `<div class="daycol${n===1?" now":""}"><h5>${dname}<span class="pel e-${el}">${el}</span></h5>
+        <div class="sub">${lbl[n]}</div>${rows||'<div class="scnone">\u2014</div>'}</div>`;
+    }).join("");
   }
-  function calc(){ const w=WSD[+sel.value]; if(!w)return; const tpi=+document.getElementById("w_tp").value;
-    const D=gvs("w_dmg"), vit=100, STR=wStats.STR||0;
-    let fstr=(STR-vit+4)/4; fstr=Math.max(-(D+8),Math.min(D+8,fstr));
-    let wsc=0; for(const st in w.mod) wsc+=w.mod[st]*(wStats[st]||0);
-    const ftp = w.sc ? w.f[tpi] : w.flat;
-    const base=D+fstr+wsc, mult = w.rp ? ftp*w.h : ftp+(w.h-1), raw=base*mult;
-    const cr=+document.getElementById("w_crs").value, eff=cr*w.am, est=raw*eff;
-    setT("w_base",Math.round(raw)); setT("w_wsc",wsc.toFixed(1)); setT("w_fstr",fstr.toFixed(1));
-    setT("w_ftp",ftp!=null?ftp:"—"); setT("w_cr",eff.toFixed(2)); setT("w_out",Math.round(est));
-    setT("w_info",`${w.wt} · ${w.mr||"no stat mod"} · ${w.h} hit${w.h>1?"s":""}${w.rp?" · fTP replicates":""}${w.am!==1?" · Atk×"+w.am:""}`);
-  }
-  sel.onchange=()=>{renderStats(WSD[+sel.value]); calc();};
-  document.getElementById("w_tp").onchange=calc;
-  document.getElementById("w_dmg").addEventListener("input",calc);
-  document.getElementById("w_crs").addEventListener("input",()=>{document.getElementById("w_crlbl").textContent=(+document.getElementById("w_crs").value).toFixed(2); calc();});
-  renderStats(WSD[0]); calc();
+  function sync(){ const v=vana(); daySel.value=v.wd; perSel.value=periodFor(v.h); render(); }
+  function tick(){ const v=vana(), el=document.getElementById("vclock");
+    if(el) el.textContent=`${DAYS[v.wd][0]}  ${String(v.h).padStart(2,"0")}:${String(v.m).padStart(2,"0")}`; }
+  daySel.onchange=render; perSel.onchange=render;
+  document.getElementById("procsync").onclick=sync;
+  tick(); setInterval(tick,1000); sync();
 })();
+
+/* ===== Empyrean planner ===== */
+const EMPD={"weapons": [{"name": "Verethragna", "ws": "Victory Smite", "wt": "Hand-to-Hand", "jobs": "MNK, PUP", "chain": "Chloris"}, {"name": "Redemption", "ws": "Quietus", "wt": "Scythe", "jobs": "DRK", "chain": "Chloris"}, {"name": "Rhongomiant", "ws": "Camlann's Torment", "wt": "Polearm", "jobs": "DRG", "chain": "Chloris"}, {"name": "Twashtar", "ws": "Rudra's Storm", "wt": "Dagger", "jobs": "THF, BRD, DNC", "chain": "Glavoid"}, {"name": "Ukonvasara", "ws": "Ukko's Fury", "wt": "Great Axe", "jobs": "WAR", "chain": "Glavoid"}, {"name": "Almace", "ws": "Chant du Cygne", "wt": "Sword", "jobs": "RDM, PLD, BLU", "chain": "Briareus"}, {"name": "Kannagi", "ws": "Blade: Hi", "wt": "Katana", "jobs": "NIN", "chain": "Briareus"}, {"name": "Caladbolg", "ws": "Torcleaver", "wt": "Great Sword", "jobs": "PLD, DRK", "chain": "Carabosse"}, {"name": "Masamune", "ws": "Tachi: Fudo", "wt": "Great Katana", "jobs": "SAM", "chain": "Carabosse"}, {"name": "Armageddon", "ws": "Wildfire", "wt": "Gun", "jobs": "RNG, COR", "chain": "Carabosse"}, {"name": "Hvergelmir", "ws": "Myrkr", "wt": "Staff", "jobs": "BLM, SMN, SCH", "chain": "Kukulkan"}, {"name": "Farsha", "ws": "Cloudsplitter", "wt": "Axe", "jobs": "WAR, BST", "chain": "Fistule"}, {"name": "Gambanteinn", "ws": "Dagan", "wt": "Club", "jobs": "WHM", "chain": "Fistule"}, {"name": "Gandiva", "ws": "Jishnu's Radiance", "wt": "Bow", "jobs": "RNG", "chain": "Fistule"}, {"name": "Daurdabla", "ws": "\u2014", "wt": "Instrument", "jobs": "BRD", "chain": null, "blocked": {"title": "Not available in the Visions zones", "mat": "Iron Plate", "qty": 50, "nm": "Ironclad Smiter", "why": "Iron Plate drops from <b>Ironclad Smiter</b>, an Iron Giant NM. Iron Giants live in the <b>Scars of Abyssea</b> zones (Altepa, Attohwa, Misareaux) \u2014 none of which are part of the Visions release, so this upgrade can\u2019t be started on CatsEyeXI yet.", "future": "For reference, the Altepa route: farm Bonfires (E-11) for a Smoldering Arm and Sand Sweepers (D-10) for a Sandy Shard \u2192 trade the Sandy Shard to the ??? at (C-11) to pop Tablilla for a Tablilla Mercury \u2192 trade the Tablilla Mercury and Smoldering Arm to the ??? at (D-12) to pop Ironclad Smiter, which drops the plate."}}, {"name": "Ochain", "ws": "\u2014", "wt": "Shield", "jobs": "PLD", "chain": null, "blocked": {"title": "Not available in the Visions zones", "mat": "Iron Plate", "qty": 50, "nm": "Ironclad Smiter", "why": "Iron Plate drops from <b>Ironclad Smiter</b>, an Iron Giant NM. Iron Giants live in the <b>Scars of Abyssea</b> zones (Altepa, Attohwa, Misareaux) \u2014 none of which are part of the Visions release, so this upgrade can\u2019t be started on CatsEyeXI yet.", "future": "For reference, the Altepa route: farm Bonfires (E-11) for a Smoldering Arm and Sand Sweepers (D-10) for a Sandy Shard \u2192 trade the Sandy Shard to the ??? at (C-11) to pop Tablilla for a Tablilla Mercury \u2192 trade the Tablilla Mercury and Smoldering Arm to the ??? at (D-12) to pop Ironclad Smiter, which drops the plate."}}], "chains": {"Chloris": {"zone": "Abyssea - Tahrongi", "mat": "Two-leaf Chloris Bud", "qty": 50, "mobloc": {"Gully Clionid": "(G-11)", "Gulch Limule": "(H-10)", "Beholder": "(H-9)", "Blood Bat": "(I-9)", "Canyon Scorpion": "(G-8)", "Caoineag": "(F-7)", "Pachypodium": "(I-8)"}, "tiers": [{"n": "Chloris", "loc": "??? @ (I-8)", "how": "Check the ??? while holding all 4 key items.", "goal": "Drops <b>Two-leaf Chloris Bud</b> \u2014 you need 50.", "needs": ["Veinous Hecteyes Eyelid", "Torn Bat Wing", "Gory Scorpion Claw", "Mossy Adamantoise Shell"], "drop": "Two-leaf Chloris Bud"}, {"n": "Ophanim", "loc": "??? @ (G-9)", "how": "Trade Bloodshot Hecteye, Shriveled Wing and Tarnished Pincer to the ???.", "goal": "Drops <b>Veinous Hecteyes Eyelid</b>.", "needs": ["Bloodshot Hecteye", "Shriveled Wing", "Tarnished Pincer"], "drop": "Veinous Hecteyes Eyelid"}, {"n": "Treble Noctules", "loc": "??? @ (I-9)", "how": "Trade Bloody Fang and Exorcised Skull to the ???.", "goal": "Drops <b>Torn Bat Wing</b>.", "needs": ["Exorcised Skull", "Bloody Fang"], "drop": "Torn Bat Wing"}, {"n": "Hedetet", "loc": "??? @ (F-7)", "how": "Trade Venomous Scorpion Stinger and Acidic Humus to the ???.", "goal": "Drops <b>Gory Scorpion Claw</b>.", "needs": ["Acidic Humus", "Venomous Scorpion Stinger"], "drop": "Gory Scorpion Claw"}, {"n": "Chukwa", "loc": "(F-4) / (F-5)", "how": "Timed spawn \u2014 no pop items. Repops every 10\u201315 minutes around (F-4)/(F-5); camp the spot.", "goal": "Drops <b>Mossy Adamantoise Shell</b>.", "needs": [], "timed": "10\u201315 min respawn", "drop": "Mossy Adamantoise Shell"}, {"n": "Halimede", "loc": "??? @ (G-12)", "how": "Trade a High-Quality Clionid Wing to the ??? at the northwest corner of (G-12).", "goal": "Drops <b>Shriveled Wing</b>.", "needs": ["High-Quality Clionid Wing"], "drop": "Shriveled Wing"}, {"n": "Vetehinen", "loc": "??? @ (H-10)", "how": "Trade a High-Quality Limule Pincer to the ???.", "goal": "Drops <b>Tarnished Pincer</b>.", "needs": ["High-Quality Limule Pincer"], "drop": "Tarnished Pincer"}, {"n": "Cannered Noz", "loc": "??? @ (F-6)", "how": "Trade a Baleful Skull to the ???.", "goal": "Drops <b>Exorcised Skull</b>.", "needs": ["Baleful Skull"], "drop": "Exorcised Skull"}, {"n": "Gancanagh", "loc": "??? @ (H-8)", "how": "Trade an Alkaline Humus to the ???.", "goal": "Drops <b>Acidic Humus</b>.", "needs": ["Alkaline Humus"], "drop": "Acidic Humus"}], "items": {"Veinous Hecteyes Eyelid": {"nm": "Ophanim", "loc": "??? @ (G-9)"}, "Torn Bat Wing": {"nm": "Treble Noctules", "loc": "??? @ (I-9)"}, "Gory Scorpion Claw": {"nm": "Hedetet", "loc": "??? @ (F-7)"}, "Mossy Adamantoise Shell": {"nm": "Chukwa", "loc": "(F-4) / (F-5)"}, "Shriveled Wing": {"nm": "Halimede", "ah": true, "loc": "??? @ (G-12)"}, "Tarnished Pincer": {"nm": "Vetehinen", "ah": true, "loc": "??? @ (H-10)"}, "Exorcised Skull": {"nm": "Cannered Noz", "ah": true, "loc": "??? @ (F-6)"}, "Acidic Humus": {"nm": "Gancanagh", "ah": true, "loc": "??? @ (H-8)"}, "Bloodshot Hecteye": {"mob": "Beholder", "ah": true, "loc": "(H-9)"}, "Bloody Fang": {"mob": "Blood Bat", "ah": true, "loc": "(I-9)"}, "Venomous Scorpion Stinger": {"mob": "Canyon Scorpion", "ah": true, "loc": "(G-8)"}, "High-Quality Clionid Wing": {"mob": "Gully Clionid", "ah": true, "loc": "(G-11)"}, "High-Quality Limule Pincer": {"mob": "Gulch Limule", "ah": true, "loc": "(H-10)"}, "Alkaline Humus": {"mob": "Pachypodium", "ah": true, "loc": "(I-8)"}, "Baleful Skull": {"mob": "Caoineag", "ah": true, "loc": "(F-7)"}}, "route": [{"step": "Farm the common mobs", "body": "Kill these regular Tahrongi mobs for the base drops. Anything tagged AH can be bought instead.", "mobs": ["Gully Clionid", "Gulch Limule", "Beholder", "Blood Bat", "Canyon Scorpion", "Caoineag", "Pachypodium"]}, {"step": "Pop the small NMs", "body": "Trade those drops to get the mid-tier key items.", "nms": ["Halimede", "Vetehinen", "Cannered Noz", "Gancanagh"]}, {"step": "Pop the four key-item NMs", "body": "These give the 4 key items Chloris needs.", "nms": ["Ophanim", "Treble Noctules", "Hedetet", "Chukwa"]}, {"step": "Pop Chloris \u2014 repeat until 50", "body": "Check the ??? at (I-8) with all 4 key items. Trigger its weaknesses for better drops.", "nms": ["Chloris"]}]}, "Glavoid": {"zone": "Abyssea - Tahrongi", "mat": "Glavoid Shell", "qty": 50, "mobloc": {"Cluckatrice": "", "Canyon Eft": "(J-10) / (J-11)", "Jaguarundi": "", "Hieracosphinx": "(J-6)"}, "tiers": [{"n": "Glavoid", "loc": "??? @ (I-5)", "how": "Check the ??? while holding all 4 key items. Zone boss.", "goal": "Drops <b>Glavoid Shell</b> \u2014 you need 50.", "needs": ["Fat-lined Cockatrice Skin", "Sodden Sandworm Husk", "Luxuriant Manticore Mane", "Sticky Gnat Wing"], "drop": "Glavoid Shell"}, {"n": "Alectryon", "loc": "??? @ (H-8)", "how": "Trade a Chunk of Cockatrice Tailmeat and a Quivering Eft Egg to the ???.", "goal": "Drops <b>Fat-lined Cockatrice Skin</b>.", "needs": ["Cockatrice Tailmeat", "Quivering Eft Egg"], "drop": "Fat-lined Cockatrice Skin"}, {"n": "Minhocao", "loc": "(H-6) \u2013 (I-6)", "how": "Free spawn \u2014 no pop items. Find it in the (H-6)\u2013(I-6) area.", "goal": "Drops <b>Sodden Sandworm Husk</b>.", "needs": [], "drop": "Sodden Sandworm Husk"}, {"n": "Muscaliet", "loc": "??? @ (J-6)", "how": "Trade a Smooth Whisker and a Resilient Mane to the ???.", "goal": "Drops <b>Luxuriant Manticore Mane</b>.", "needs": ["Smooth Whisker", "Resilient Mane"], "drop": "Luxuriant Manticore Mane"}, {"n": "Adze", "loc": "(H-6)", "how": "Free spawn \u2014 no pop items. Aggressive and true-hearing, so approach carefully.", "goal": "Drops <b>Sticky Gnat Wing</b>.", "needs": [], "drop": "Sticky Gnat Wing"}, {"n": "Abas", "loc": "??? @ (K-10)", "how": "Trade an Eft Egg to the ???.", "goal": "Drops <b>Quivering Eft Egg</b>.", "needs": ["Eft Egg"], "drop": "Quivering Eft Egg"}, {"n": "Tefenet", "loc": "??? @ (G-6)", "how": "Trade a Shocking Whisker to the ???.", "goal": "Drops <b>Smooth Whisker</b>.", "needs": ["Shocking Whisker"], "drop": "Smooth Whisker"}], "items": {"Fat-lined Cockatrice Skin": {"nm": "Alectryon", "ah": true, "loc": "??? @ (H-8)"}, "Sodden Sandworm Husk": {"nm": "Minhocao", "ah": true, "loc": "(H-6) \u2013 (I-6)"}, "Luxuriant Manticore Mane": {"nm": "Muscaliet", "loc": "??? @ (J-6)"}, "Sticky Gnat Wing": {"nm": "Adze", "loc": "(H-6)"}, "Quivering Eft Egg": {"nm": "Abas", "ah": true, "loc": "??? @ (K-10)"}, "Smooth Whisker": {"nm": "Tefenet", "ah": true, "loc": "??? @ (G-6)"}, "Cockatrice Tailmeat": {"mob": "Cluckatrice", "ah": true, "loc": ""}, "Eft Egg": {"mob": "Canyon Eft", "ah": true, "loc": "(J-10) / (J-11)"}, "Shocking Whisker": {"mob": "Jaguarundi", "ah": true, "loc": ""}, "Resilient Mane": {"mob": "Hieracosphinx", "ah": true, "loc": "(J-6)"}}, "route": [{"step": "Farm the common mobs", "body": "Base drops for the small NMs. Anything tagged AH can be bought instead.", "mobs": ["Cluckatrice", "Canyon Eft", "Jaguarundi", "Hieracosphinx"]}, {"step": "Pop the small NMs", "body": "Trade those drops to get the mid-tier items.", "nms": ["Abas", "Tefenet"]}, {"step": "Get the four key items", "body": "Two are trigger pops, two are free spawns you just have to find.", "nms": ["Alectryon", "Muscaliet", "Minhocao", "Adze"]}, {"step": "Pop Glavoid \u2014 repeat until 50", "body": "Check the ??? at (I-5) with all 4 key items.", "nms": ["Glavoid"]}]}, "Briareus": {"zone": "Abyssea - La Theine", "mat": "Helm of Briareus", "qty": 50, "mobloc": {"Bathyal Gigas": "", "Hadal Gigas": "", "Demersal Gigas": ""}, "tiers": [{"n": "Briareus", "loc": "??? @ (G-6)", "how": "Check the ??? while holding all 3 key items.", "goal": "Drops <b>Helm of Briareus</b> \u2014 you need 50.", "needs": ["Dented Gigas Shield", "Warped Gigas Armband", "Severed Gigas Collar"], "drop": "Helm of Briareus"}, {"n": "Adamastor", "loc": "??? @ (C-4)", "how": "Trade a Trophy Shield to the ???.", "goal": "Drops <b>Dented Gigas Shield</b>.", "needs": ["Trophy Shield"], "drop": "Dented Gigas Shield"}, {"n": "Pantagruel", "loc": "??? @ (F-7)", "how": "Trade an Oversized Sock to the ???.", "goal": "Drops <b>Warped Gigas Armband</b>.", "needs": ["Oversized Sock"], "drop": "Warped Gigas Armband"}, {"n": "Grandgousier", "loc": "??? @ (F-10)", "how": "Trade a Massive Armband to the ???.", "goal": "Drops <b>Severed Gigas Collar</b>.", "needs": ["Massive Armband"], "drop": "Severed Gigas Collar"}], "items": {"Dented Gigas Shield": {"nm": "Adamastor", "loc": "??? @ (C-4)"}, "Warped Gigas Armband": {"nm": "Pantagruel", "loc": "??? @ (F-7)"}, "Severed Gigas Collar": {"nm": "Grandgousier", "loc": "??? @ (F-10)"}, "Trophy Shield": {"mob": "Bathyal Gigas", "ah": true, "loc": ""}, "Oversized Sock": {"mob": "Hadal Gigas", "ah": true, "loc": ""}, "Massive Armband": {"mob": "Demersal Gigas", "ah": true, "loc": ""}}, "route": [{"step": "Farm the gigas", "body": "Each gigas type drops one trigger item. All three are also on the Auction House.", "mobs": ["Bathyal Gigas", "Hadal Gigas", "Demersal Gigas"]}, {"step": "Pop the three trigger NMs", "body": "Each gives one of Briareus's key items.", "nms": ["Adamastor", "Pantagruel", "Grandgousier"]}, {"step": "Pop Briareus \u2014 repeat until 50", "body": "Check the ??? at (G-6) with all 3 key items.", "nms": ["Briareus"]}]}, "Carabosse": {"zone": "Abyssea - La Theine", "mat": "Carabosse's Gem", "qty": 50, "mobloc": {"Plateau Glider": "", "Pixie": ""}, "tiers": [{"n": "Carabosse", "loc": "??? @ (H-7)", "how": "Check the ??? while holding both key items.", "goal": "Drops <b>Carabosse's Gem</b> \u2014 you need 50.", "needs": ["Pellucid Fly Eye", "Shimmering Pixie Pinion"], "drop": "Carabosse's Gem"}, {"n": "La Theine Liege", "loc": "??? @ (I-7)", "how": "Trade a Transparent Insect Wing to the ???.", "goal": "Drops <b>Pellucid Fly Eye</b>.", "needs": ["Transparent Insect Wing"], "drop": "Pellucid Fly Eye"}, {"n": "Baba Yaga", "loc": "??? @ (H-7)", "how": "Trade a Piceous Scale to the ???.", "goal": "Drops <b>Shimmering Pixie Pinion</b>.", "needs": ["Piceous Scale"], "drop": "Shimmering Pixie Pinion"}], "items": {"Pellucid Fly Eye": {"nm": "La Theine Liege", "loc": "??? @ (I-7)"}, "Shimmering Pixie Pinion": {"nm": "Baba Yaga", "loc": "??? @ (H-7)"}, "Transparent Insect Wing": {"mob": "Plateau Glider", "ah": true, "loc": ""}, "Piceous Scale": {"mob": "Pixie", "ah": true, "loc": ""}}, "route": [{"step": "Farm the trigger items", "body": "Both are also on the Auction House if you'd rather skip the farm.", "mobs": ["Plateau Glider", "Pixie"]}, {"step": "Pop the two trigger NMs", "body": "Each gives one of Carabosse's key items. Both ??? sit close together.", "nms": ["La Theine Liege", "Baba Yaga"]}, {"step": "Pop Carabosse \u2014 repeat until 50", "body": "Check the ??? at (H-7) with both key items.", "nms": ["Carabosse"]}]}, "Kukulkan": {"zone": "Abyssea - Konschtat", "mat": "Kukulkan's Fang", "qty": 50, "mobloc": {"Bugard": "", "Mesa Wivre": "", "Deep Eye": ""}, "tiers": [{"n": "Kukulkan", "loc": "??? @ (H-5)", "how": "Check the ??? while holding all 3 key items. Zone boss.", "goal": "Drops <b>Kukulkan's Fang</b> \u2014 you need 50.", "needs": ["Tattered Hippogryph Wing", "Cracked Wivre Horn", "Mucid Ahriman Eyeball"], "drop": "Kukulkan's Fang"}, {"n": "Alkonost", "loc": "??? @ (H-6)", "how": "Trade a Giant Bugard Tusk to the ???.", "goal": "Drops <b>Tattered Hippogryph Wing</b>.", "needs": ["Giant Bugard Tusk"], "drop": "Tattered Hippogryph Wing"}, {"n": "Keratyrannos", "loc": "??? @ (G-6)", "how": "Trade an Armored Dragonhorn to the ???.", "goal": "Drops <b>Cracked Wivre Horn</b>.", "needs": ["Armored Dragonhorn"], "drop": "Cracked Wivre Horn"}, {"n": "Arimaspi", "loc": "??? @ (K-6)", "how": "Trade a Clouded Lens to the ???.", "goal": "Drops <b>Mucid Ahriman Eyeball</b>.", "needs": ["Clouded Lens"], "drop": "Mucid Ahriman Eyeball"}], "items": {"Tattered Hippogryph Wing": {"nm": "Alkonost", "loc": "??? @ (H-6)"}, "Cracked Wivre Horn": {"nm": "Keratyrannos", "loc": "??? @ (G-6)"}, "Mucid Ahriman Eyeball": {"nm": "Arimaspi", "loc": "??? @ (K-6)"}, "Giant Bugard Tusk": {"mob": "Bugard", "ah": true, "loc": ""}, "Armored Dragonhorn": {"mob": "Mesa Wivre", "ah": true, "loc": ""}, "Clouded Lens": {"mob": "Deep Eye", "ah": true, "loc": ""}}, "route": [{"step": "Farm the trigger items", "body": "One from each family. All three are also on the Auction House.", "mobs": ["Bugard", "Mesa Wivre", "Deep Eye"]}, {"step": "Pop the three trigger NMs", "body": "Each gives one of Kukulkan's key items.", "nms": ["Alkonost", "Keratyrannos", "Arimaspi"]}, {"step": "Pop Kukulkan \u2014 repeat until 50", "body": "Check the ??? at (H-5) with all 3 key items. All three key items can also come from gold chests.", "nms": ["Kukulkan"]}]}, "Fistule": {"zone": "Abyssea - Konschtat", "mat": "Fistule Discharge", "qty": 50, "mobloc": {"Gneiss Leech": "", "Gunge Slug": ""}, "tiers": [{"n": "Fistule", "loc": "(G-3)", "how": "Fistule sits at (G-3) but can't be attacked at first. Lure one of Guimauve, Bloodguzzler or Lentor next to it \u2014 Fistule kills it with Dissolve and becomes attackable. Whoever holds hate on the sacrificed NM is the one who can get the Turbid Slime Oil key item.", "goal": "Drops <b>Fistule Discharge</b> \u2014 you need 50.", "needs": ["A lure NM brought next to it"], "timed": "15\u201320 min after each kill", "drop": "Fistule Discharge"}, {"n": "Guimauve", "loc": "(G-4)", "how": "Free spawn \u2014 the easiest lure. Aggressive and detects by sight.", "goal": "Lure it to Fistule at (G-3).", "needs": []}, {"n": "Bloodguzzler", "loc": "??? @ (G-5)", "how": "Trade Eft Blood to the ???.", "goal": "Alternative lure for Fistule.", "needs": ["Eft Blood"]}, {"n": "Lentor", "loc": "??? @ (F-6)", "how": "Trade a Giant Slug Eyestalk to the ???.", "goal": "Alternative lure for Fistule.", "needs": ["Giant Slug Eyestalk"]}], "items": {"A lure NM brought next to it": {"nm": "Guimauve", "loc": "(G-4)"}, "Eft Blood": {"mob": "Gneiss Leech", "loc": ""}, "Giant Slug Eyestalk": {"mob": "Gunge Slug", "loc": ""}}, "route": [{"step": "Get a lure NM", "body": "Guimauve is a free spawn at (G-4) and needs nothing \u2014 usually the fastest option.", "nms": ["Guimauve"]}, {"step": "Or use a backup lure", "body": "If Guimauve is taken or dead, either of these works instead.", "nms": ["Bloodguzzler", "Lentor"]}, {"step": "Kill Fistule \u2014 repeat until 50", "body": "Lure your NM next to Fistule at (G-3), then fight it. It respawns 15\u201320 minutes after each kill.", "nms": ["Fistule"]}]}}};
+(function(){
+  const sel=document.getElementById("emp_ws"); if(!sel)return;
+  const WS=EMPD.weapons, CH=EMPD.chains;
+  // group the dropdown by zone so related weapons sit together
+  const groups={};
+  WS.forEach((w,i)=>{ const z=w.chain?CH[w.chain].zone.replace("Abyssea - ",""):"Source not confirmed";
+    (groups[z]=groups[z]||[]).push([i,w]); });
+  sel.innerHTML=Object.keys(groups).map(z=>`<optgroup label="${z}">`+
+    groups[z].map(([i,w])=>`<option value="${i}">${w.name} — ${w.wt} (${w.jobs})</option>`).join("")+`</optgroup>`).join("");
+
+  let inv={}, open=null;
+  const kkey=w=>"cexi-emp-"+w.name;
+  const load=w=>{ try{inv=JSON.parse(localStorage.getItem(kkey(w))||"{}");}catch(e){inv={};} };
+  const save=w=>{ try{localStorage.setItem(kkey(w),JSON.stringify(inv));}catch(e){} };
+  const g=k=>inv[k]||0;
+  const T=(c,n)=>c.tiers.find(t=>t.n===n);
+  const ready=(c,n)=>{const t=T(c,n); return !!t && (t.needs.length===0 || t.needs.every(x=>g(x)>0));};
+  const srcOf=(c,i)=>{const x=c.items[i]; return x? (x.nm?{k:"nm",v:x.nm,l:x.loc||""}:{k:"mob",v:x.mob,l:x.loc||""}) : null;};
+
+  function nextUp(c){
+    if(g(c.mat)>=c.qty) return `All <b>${c.qty} ${c.mat}</b> collected. Take them to the upgrade NPC.`;
+    const boss=c.tiers[0].n;
+    if(ready(c,boss)) return `Fight <b>${boss}</b> at ${T(c,boss).loc} — you have everything it needs.`;
+    for(let i=c.route.length-1;i>=0;i--){ const r=c.route[i]; if(!r.nms) continue;
+      for(const n of r.nms){ if(n!==boss && ready(c,n) && T(c,n).needs.length)
+        return `Pop <b>${n}</b> at ${T(c,n).loc} — you have what it needs.`; } }
+    for(let i=c.route.length-1;i>=0;i--){ const r=c.route[i]; if(!r.nms) continue;
+      for(const n of r.nms){ if(n!==boss && ready(c,n))
+        return `Kill <b>${n}</b> at ${T(c,n).loc}${T(c,n).timed?` — timed spawn, ${T(c,n).timed}`:" — free spawn, nothing needed"}.`; } }
+    const miss=[];
+    c.tiers.forEach(t=>t.needs.forEach(i=>{ const x=srcOf(c,i); if(x&&x.k==="mob"&&g(i)===0&&!miss.includes(x.v)) miss.push(x.v); }));
+    return miss.length ? `Farm ${miss.slice(0,3).map(m=>`<b>${m}</b>${c.mobloc[m]?" "+c.mobloc[m]:""}`).join(", ")} for trigger items.`
+                       : `Work up the ladder — pop the small NMs first.`;
+  }
+  function tile(c,n){
+    const t=T(c,n); if(!t) return "";
+    const rd=ready(c,n), free=t.needs.length===0;
+    const cls=free?"s-free":(rd?"s-ready":"s-lock");
+    const tmd=t.timed?`<span class="timed">⏱ ${t.timed}</span>`:"";
+    const rows=t.needs.map((i,ix)=>{const x=srcOf(c,i);
+      const ah=c.items[i]&&c.items[i].ah?`<span class="ahtag">AH</span>`:"";
+      const st=x&&x.k==="nm"&&T(c,x.v)&&T(c,x.v).timed?` · ⏱ ${T(c,x.v).timed}`:"";
+      return `<div class="ir${g(i)>0?" ok":""}">
+        <span class="lft"><i class="irn">${ix+1}</i>
+          <span><span class="in1">${i}${ah}</span><br><span class="in2">${x?(x.k==="nm"?"from "+x.v:"farm "+x.v)+(x.l?` <b class="lc">${x.l}</b>`:"")+st:""}</span></span></span>
+        <span class="stp" data-k="${i}"><button data-d="-1">−</button><span>${g(i)}</span><button data-d="1">+</button></span>
+      </div>`;}).join("");
+    return `<div class="tile${rd?" ready":""}${open===n?" open":""}" data-n="${n}">
+      <div class="tn"><i class="sdot ${cls}"></i>${n}${tmd}</div>
+      <div class="tloc">${t.loc}</div>
+      <div class="tgot">${t.goal.replace(/<\/?b>/g,"")}</div>
+      ${t.needs.length>1?`<div class="minineed">${t.needs.map((x,ix)=>`<span class="mn${g(x)>0?" ok":""}">${ix+1}. ${x}</span>`).join("")}</div>`:""}
+      <div class="body">
+        <div class="how"><b>Pop:</b> ${t.how}</div>
+        ${rows?`<div class="needhdr">Needs ${t.needs.length} item${t.needs.length>1?"s":""}</div><div>${rows}</div>`:""}
+        ${t.drop?`<button class="addbtn" data-add="${t.drop}">+1 ${t.drop}</button>`:""}
+      </div></div>`;
+  }
+  function render(){
+    const w=WS[+sel.value]; load(w);
+    const out=document.getElementById("emp_out");
+    if(!w.chain){
+      const b=w.blocked;
+      out.innerHTML=`<div class="eph"><div><div class="kicker">Level 80</div>
+        <div class="ename">${w.name}</div>
+        <div class="emeta">${w.wt} \u00b7 ${w.jobs}${w.ws!=="\u2014"?" \u00b7 unlocks "+w.ws:""}</div></div></div>`
+      + (b?`<div class="stage"><div class="shead"><div class="sbadge">!</div>
+          <div><div class="stitle">${b.title}</div>
+          <div class="ssub">Needs \u00d7${b.qty} ${b.mat}, dropped by ${b.nm}</div></div></div>
+          <div class="how">${b.why}</div>
+          <div class="needhdr">If those zones open later</div>
+          <div class="how" style="color:var(--dim)">${b.future}</div></div>`
+        :`<div class="stage"><div class="shead"><div class="sbadge">?</div>
+          <div><div class="stitle">Source not confirmed</div></div></div></div>`);
+      return;
+    }
+    const c=CH[w.chain], C=2*Math.PI*44, pct=Math.min(1,g(c.mat)/c.qty);
+    let h=`<div class="eph">
+      <div><div class="kicker">Level 80 · ${c.zone.replace("Abyssea - ","")}</div>
+        <div class="ename">${w.name}</div>
+        <div class="emeta">${w.wt} · ${w.jobs} · unlocks ${w.ws}</div></div>
+      <div class="ephr">
+      <div class="ring">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <defs><linearGradient id="eg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#8f7bff"/><stop offset="100%" stop-color="#e8c06a"/></linearGradient></defs>
+          <circle class="bgc" cx="52" cy="52" r="44"></circle>
+          <circle class="fgc" cx="52" cy="52" r="44" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}"></circle>
+        </svg>
+        <div class="lab"><span class="n">${g(c.mat)}<span style="color:var(--dim);font-size:14px">/${c.qty}</span></span>
+          <span class="d">collected</span></div>
+      </div>
+      <div class="matlog">
+        <span class="mlab">${c.mat}</span>
+        <span class="stp" data-k="${c.mat}"><button data-d="-1">−</button><span>${g(c.mat)}</span><button data-d="1">+</button></span>
+      </div></div></div>
+      <div class="nextup"><div><div class="nl">Do this next</div><div class="nt">${nextUp(c)}</div></div></div>`;
+    c.route.forEach((r,i)=>{
+      const hot = r.nms ? r.nms.some(n=>ready(c,n)) && !r.nms.every(n=>ready(c,n)) : false;
+      const done = r.nms ? r.nms.every(n=>ready(c,n)) : false;
+      let body="";
+      if(r.mobs) body=`<div class="farmrow">${r.mobs.map(m=>{
+        const it=Object.keys(c.items).find(k=>c.items[k].mob===m);
+        const ah=it&&c.items[it].ah?`<span class="ahtag">AH</span>`:"";
+        const ml=c.mobloc[m]||"";
+        return `<div class="fm"><span class="fmn">${m}${ml?` <b class="lc">${ml}</b>`:""}</span><span class="fmi">${it||""}${ah}</span></div>`;}).join("")}</div>`;
+      if(r.nms) body=`<div class="tiles">${r.nms.map(n=>tile(c,n)).join("")}</div>`;
+      if(i) h+=`<div class="slink">↓</div>`;
+      h+=`<div class="stage${hot?" hot":""}${done?" done":""}">
+        <div class="shead"><div class="sbadge">${done?"✓":i+1}</div>
+          <div><div class="stitle">${r.step}</div><div class="ssub">${r.body}</div></div></div>
+        ${body}</div>`;
+    });
+    h+=`<div class="tag">Tap an NM for its pop method and to log items. Items tagged <span class="ahtag">AH</span> can be bought on the Auction House, which skips that farm. Key items also drop from a <b>Giant Gold Sturdy Pyxis</b>. Trigger weaknesses (Procs tab) for better drops. Counts save in this browser.</div>`;
+    out.innerHTML=h;
+    out.querySelectorAll(".tile").forEach(el=>el.onclick=e=>{
+      if(e.target.closest(".stp")||e.target.closest(".addbtn")) return;
+      open = open===el.dataset.n ? null : el.dataset.n; render(); });
+    out.querySelectorAll(".stp button").forEach(b=>b.onclick=()=>{
+      const k=b.parentElement.dataset.k; inv[k]=Math.max(0,g(k)+ +b.dataset.d); save(w); render(); });
+    out.querySelectorAll(".addbtn").forEach(b=>b.onclick=()=>{
+      const k=b.dataset.add; inv[k]=g(k)+1; save(w); render(); });
+  }
+  sel.onchange=()=>{open=null;render();};
+  document.getElementById("emp_reset").onclick=()=>{const w=WS[+sel.value];inv={};save(w);render();};
+  render();
+})();
+
 </script>
 </body>
 </html>
