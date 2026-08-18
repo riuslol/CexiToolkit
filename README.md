@@ -1,34 +1,43 @@
-# CexiGEO — Geomancer Potency Calculator (CatsEyeXI, Lv.75)
+## What's in it
 
-An interactive potency/tier calculator for **Geomancer** on the **CatsEyeXI** private server (level 75 era). Set your Geomancy and Handbell skill and instantly see every Indi-/Geo- spell's value, the exact combined-skill breakpoints for the next tier, and where you hit diminishing returns.
+### Geomancy
+Set your Geomancy and Handbell skill and see every Indi-/Geo- spell's real value at that skill level.
 
-**Live:** https://riuslol.github.io/CexiGEO/
+- Separate skill sliders with a live combined total, plus toggles for a bell being equipped and for Idris
+- **Next tier** — the exact combined skill for your next potency step, and how far off you are
+- **Return / +100 skill** — how much each spell gains per 100 skill invested, with a green-to-red bar so diminishing returns are obvious at a glance
+- The CatsEyeXI gear list for Geomancy+, Geomancy skill+ and Handbell skill+, with a one-click max-skill build
+- Copy a link to share your exact setup
 
-It's a single self-contained `index.html` — no build step, no dependencies, no tracking. Open the file locally or use the link above.
+### Skillchains
+- **Chain builder** — pick weapon skills in order and see each step resolve, including when a chain escalates to Light or Darkness, or breaks
+- **Find a chain** — pick one weapon skill and a target chain, get every partner that makes it (e.g. what pairs with Requiescat for Darkness)
+- **Cheatsheet** — all 33 property pairings, colour-coded by tier
+- **WS lookup** — filter 215 weapon skills by weapon type, property or name
+
+### Procs
+A live Vana'diel clock that tells you what to hit right now.
+
+- **Blue** — the 15 physical weapon skills for the current time period (Piercing 06:00–14:00, Slashing 14:00–22:00, Blunt 22:00–06:00), grouped by weapon
+- **Red** — all 13 elemental weapon skills with their elements
+- **Yellow** — spells for the **previous, current and next** day side by side, since any of the three can be the trigger
+
+### Empyrean
+A hunt route and progress tracker for all 16 Empyrean weapons.
+
+- Pick a weapon and get the full chain bottom-up: which common mobs to farm, which small NMs to pop, then the key-item NMs, then the boss
+- **Every NM shows its exact ??? location**, pop method, and timed-spawn window where one applies
+- Pop requirements are numbered, each labelled with where it comes from and its coordinates
+- Items buyable on the **Auction House** are tagged — that can cut a chain from 8 NM kills to 4
+- Counters on every item; NMs light up when you can pop them, and a progress ring tracks your ×50 material
+- **Progress saves in your browser** per weapon
 
 ---
 
-## Features
+## Scope
 
-- **Separate Geomancy / Handbell sliders** with a live **combined** total (Handbell only counts while a bell is equipped — toggle included).
-- **Every spell, both models** — smooth `%` buffs/debuffs and stepped tick/point spells, computed the way the game actually does it.
-- **Idris toggle** — adds its bonus correctly per spell (not a flat "+2").
-- **Next tier** column — the exact combined skill for your next potency step and how far off you are.
-- **Return / +100 skill** column — how much each spell gains per 100 skill invested, with a green→red efficiency bar so diminishing returns are obvious at a glance.
-- **The maths** panel — the formulas are shown, nothing hidden.
-- **CatsEyeXI gear list** — every confirmed Geomancy+, Geomancy skill+ and Handbell skill+ piece, with a one-click "max-skill build" button.
+CatsEyeXI runs **Visions of Abyssea** only — Konschtat, La Théine and Tahrongi. So:
 
----
-
-## How it works
-
-Potency scales with your **combined skill** = Geomancy Skill + Handbell Skill (merits add +16 to each). Maximum potency is reached at **900 combined skill**.
-
-- **Percentage spells** (Fury, Barrier, Haste, Slow, Paralyze, Frailty) scale smoothly:
-  `value = Low + (High − Low) × combined ÷ 900`
-- **Tick / point spells** (MP/HP/dmg per tick; accuracy, evasion, MAB, MDB, stat points) step in whole units:
-  `tier = FLOOR(combined ÷ SkillPerTier)` → `value = Low + tier`, capped.
-- **Idris** (Ergon **dagger**, Geomancy+2) adds a flat bonus of `2 × the spell's per-point Geomancy+ value` — e.g. Regen +4, Precision +10, Fury +5.4%. (Being a dagger, it does **not** grant Handbell skill.)
-
-Endpoint data (Low / High / per-point values) comes from Square Enix's dev posts *Effect Values of Indicolure Enfeebling / Enhancement Spells* (Camate), mirrored on BG-Wiki's `Category:Geomancy`.
-
+- Only the **Level 80** Empyrean upgrade is covered; Level 85 isn't on the server yet
+- **Daurdabla** and **Ochain** need Iron Plate from Ironclad Smiter, an Iron Giant NM that lives in the Scars zones. Both are flagged in the tool as unavailable, with the route noted in case those zones open later
+- 14 of the 16 weapons have a complete, working route
